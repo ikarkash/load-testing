@@ -44,6 +44,8 @@ pipeline {
             steps {
                 container ('kubehelm') {
                     script {
+                        echo "==================== Adding Helm Repo ===================="
+                        sh "helm repo add perf-setup-helm https://sahanjayawardena9619.github.io/perf-setup/perf-setup-helm"
                         echo "==================== Updating Helm Repo ===================="
                         sh "helm repo update"
 
