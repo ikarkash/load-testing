@@ -4,6 +4,7 @@ metadata:
   name: kubehelm
   namespace: perf-platform
 spec:
+  serviceAccountName: jenkins-admin
   containers:
     - name: kubehelm
       image: centosadmin/kubernetes-helm:v3.12.3
@@ -17,10 +18,3 @@ spec:
       command:
       - cat
       tty: true
-      volumeMounts:
-        - name: helm-volume
-          mountPath: "/root/.config"
-  volumes:
-    - name: helm-volume
-      persistentVolumeClaim:
-        claimName: helm-pvc
