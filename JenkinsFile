@@ -18,6 +18,7 @@ pipeline {
         string(defaultValue: '116', description: 'Hold Load Time', name: 'holdLoadTime')
         string(defaultValue: '2', description: 'Shutdown Time', name: 'shutdownTime')
         string(defaultValue: '20', description: 'Target Throughput Per Min', name: 'targetThroughputPerMin')
+        string(defaultValue: 'http://influxdb-influxdb2.monintoring', description: 'influx url', name: 'influx_url')
     }
 
     environment {
@@ -36,7 +37,8 @@ pipeline {
         "-JstartupTime=${params.startupTime} " +
         "-JholdLoadTime=${params.holdLoadTime} " +
         "-JshutdownTime=${params.shutdownTime} " +
-        "-JtargetThroughputPerMin=${params.targetThroughputPerMin}"
+        "-JtargetThroughputPerMin=${params.targetThroughputPerMin}" +
+        "-Jinflux_url=${params.influx_url}"
     }
 
     stages {
@@ -105,11 +107,14 @@ pipeline {
             steps {
                 container ('kubehelm') {
                     script {
+                        withCredentials([
+                            usernamePassword(credentialsId: 'influxdb-credentials', usernameVariable: 'influx_username', passwordVariable: 'influx_password'),
+                        ])
                         echo "==================== Starting JMeter Distributed Testing ===================="
                         sh "kubectl exec ${env.MASTER_POD_NAME} -- /bin/bash -c 'jmeter --version'"
                         sh "kubectl exec ${env.MASTER_POD_NAME} -- /bin/bash -c 'mkdir ${APP_TEST_RESULTS_DIRECTORY}'"
 
-                        def JMETER_COMMAND = "jmeter -n -t ./scripts/${params.scriptName} -Dserver.rmi.localport=1099 -Dserver_port=1099 -Jserver.rmi.ssl.disable=true -l ./${APP_TEST_RESULTS_DIRECTORY}/jmeter-results.csv -e -o ./${APP_TEST_RESULTS_DIRECTORY} -R ${env.POD_IPS} ${JMETER_USER_DEFINED_VARIABLES}"
+                        def JMETER_COMMAND = "jmeter -n -t ./scripts/${params.scriptName} -Dserver.rmi.localport=1099 -Dserver_port=1099 -Jserver.rmi.ssl.disable=true -l ./${APP_TEST_RESULTS_DIRECTORY}/jmeter-results.csv -e -o ./${APP_TEST_RESULTS_DIRECTORY} -R ${env.POD_IPS} -Jinflux_username=${env.influx_username} -Jinflux_password=${env.influx_password} ${JMETER_USER_DEFINED_VARIABLES}"
                         sh "kubectl exec ${env.MASTER_POD_NAME} -- /bin/bash -c '${JMETER_COMMAND}'"
 
                         echo "==================== JMeter Distribution Test Execution is COMPLETED ===================="
