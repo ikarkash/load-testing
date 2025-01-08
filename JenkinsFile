@@ -109,7 +109,7 @@ pipeline {
                     script {
                         withCredentials([
                             usernamePassword(credentialsId: 'influxdb-credentials', usernameVariable: 'influx_username', passwordVariable: 'influx_password'),
-                        ])
+                        ]) {
                         echo "==================== Starting JMeter Distributed Testing ===================="
                         sh "kubectl exec ${env.MASTER_POD_NAME} -- /bin/bash -c 'jmeter --version'"
                         sh "kubectl exec ${env.MASTER_POD_NAME} -- /bin/bash -c 'mkdir ${APP_TEST_RESULTS_DIRECTORY}'"
@@ -119,6 +119,7 @@ pipeline {
 
                         echo "==================== JMeter Distribution Test Execution is COMPLETED ===================="
                     }
+                  }
                 }
             }
         }
