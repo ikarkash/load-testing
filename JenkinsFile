@@ -37,7 +37,7 @@ pipeline {
         "-JstartupTime=${params.startupTime} " +
         "-JholdLoadTime=${params.holdLoadTime} " +
         "-JshutdownTime=${params.shutdownTime} " +
-        "-JtargetThroughputPerMin=${params.targetThroughputPerMin}" +
+        "-JtargetThroughputPerMin=${params.targetThroughputPerMin} " +
         "-Jinflux_url=${params.influx_url}"
     }
 
