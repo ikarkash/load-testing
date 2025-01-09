@@ -18,7 +18,7 @@ pipeline {
         string(defaultValue: '116', description: 'Hold Load Time', name: 'holdLoadTime')
         string(defaultValue: '2', description: 'Shutdown Time', name: 'shutdownTime')
         string(defaultValue: '20', description: 'Target Throughput Per Min', name: 'targetThroughputPerMin')
-        string(defaultValue: 'http://influxdb-influxdb2.mon/api/v2/write?org=awaed&amp;bucket=awaed&amp;precision=s', description: 'influx url', name: 'influx_url')
+        string(defaultValue: "'http://influxdb-influxdb2.mon/api/v2/write?org=awaed&bucket=jmeter'", description: 'influx url', name: 'influx_url')
     }
 
     environment {
@@ -38,7 +38,7 @@ pipeline {
         "-JholdLoadTime=${params.holdLoadTime} " +
         "-JshutdownTime=${params.shutdownTime} " +
         "-JtargetThroughputPerMin=${params.targetThroughputPerMin}" +
-        "-Jinflux_url='${params.influx_url}'"
+        "-Jinflux_url=${params.influx_url}"
     }
 
     stages {
