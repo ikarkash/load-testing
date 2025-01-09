@@ -113,7 +113,7 @@
             </elementProp>
             <elementProp name="influxdbUrl" elementType="Argument">
               <stringProp name="Argument.name">influxdbUrl</stringProp>
-              <stringProp name="Argument.value">${__P(influx_url, http://influxdb.monitoring:8086/write?db=jmeter)}</stringProp>
+              <stringProp name="Argument.value">${__P(influx_url)}</stringProp>
               <stringProp name="Argument.metadata">=</stringProp>
             </elementProp>
             <elementProp name="influxdbToken" elementType="Argument">
