@@ -116,14 +116,9 @@
               <stringProp name="Argument.value">${__P(influx_url, http://influxdb.monitoring:8086/write?db=jmeter)}</stringProp>
               <stringProp name="Argument.metadata">=</stringProp>
             </elementProp>
-            <elementProp name="influxdbUsername" elementType="Argument">
-                <stringProp name="Argument.name">influxdbUsername</stringProp>
-                <stringProp name="Argument.value">${__P(influx_username, defaultUsername)}</stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-            </elementProp>
-            <elementProp name="influxdbPassword" elementType="Argument">
-                <stringProp name="Argument.name">influxdbPassword</stringProp>
-                <stringProp name="Argument.value">${__P(influx_password, defaultPassword)}</stringProp>
+            <elementProp name="influxdbToken" elementType="Argument">
+                <stringProp name="Argument.name">influxdbToken</stringProp>
+                <stringProp name="Argument.value">${__P(influx_token)}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
             </elementProp>
             <elementProp name="application" elementType="Argument">
