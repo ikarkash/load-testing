@@ -113,7 +113,7 @@ pipeline {
                         sh "kubectl exec ${env.MASTER_POD_NAME} -- /bin/bash -c 'jmeter --version'"
                         sh "kubectl exec ${env.MASTER_POD_NAME} -- /bin/bash -c 'mkdir ${APP_TEST_RESULTS_DIRECTORY}'"
 
-                        def JMETER_COMMAND = "jmeter -n -t ./scripts/${params.scriptName} -Dserver.rmi.localport=1099 -Dserver_port=1099 -Jserver.rmi.ssl.disable=true -l ./${APP_TEST_RESULTS_DIRECTORY}/jmeter-results.csv -e -o ./${APP_TEST_RESULTS_DIRECTORY} -R ${env.POD_IPS} -Jinflux_token=${env.influx_token} ${JMETER_USER_DEFINED_VARIABLES} -Jinflux_url=\"http://influxdb-influxdb2.mon/api/v2/write?org=awaed&bucket=jmeter\""
+                        def JMETER_COMMAND = "jmeter -n -t ./scripts/${params.scriptName} -Dserver.rmi.localport=1099 -Dserver_port=1099 -Jserver.rmi.ssl.disable=true -l ./${APP_TEST_RESULTS_DIRECTORY}/jmeter-results.csv -e -o ./${APP_TEST_RESULTS_DIRECTORY} -R ${env.POD_IPS} -Jinflux_token=${env.influx_token} ${JMETER_USER_DEFINED_VARIABLES} -Jinflux_url=\"${params.influx_url}\""
                         sh "kubectl exec ${env.MASTER_POD_NAME} -- /bin/bash -c '${JMETER_COMMAND}'"
 
                         echo "==================== JMeter Distribution Test Execution is COMPLETED ===================="
