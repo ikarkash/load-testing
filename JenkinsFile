@@ -12,6 +12,7 @@ pipeline {
         string(defaultValue: 'https', description: 'Protocol', name: 'protocol')
         string(defaultValue: 'catfact.ninja', description: 'Host', name: 'host')
         string(defaultValue: '/breeds', description: 'Base Path', name: 'basePath')
+        string(defaultValue: 'cat_store', description: 'Application Name', name: 'app_name')
         string(defaultValue: 'testData.csv', description: 'Test Data File', name: 'testDataFile')
         string(defaultValue: '10', description: 'Thread / User Count', name: 'threadCount')
         string(defaultValue: '2', description: 'Startup Time', name: 'startupTime')
@@ -37,6 +38,7 @@ pipeline {
         "-JstartupTime=${params.startupTime} " +
         "-JholdLoadTime=${params.holdLoadTime} " +
         "-JshutdownTime=${params.shutdownTime} " +
+        "-Japp_name=${params.app_name} " +
         "-JtargetThroughputPerMin=${params.targetThroughputPerMin} "
     }
 
